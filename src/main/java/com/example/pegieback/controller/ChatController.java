@@ -44,7 +44,7 @@ public class ChatController {
             roles.add(new Role(null, "ROLE_USER"));
             user = new User(id1, "Bot", roles);
             System.out.println(112);
-            user = userRepository.save(user);
+            user = userRepository.saveAndFlush(user);
             System.out.println(113);
         } else {
             System.out.println(111);
@@ -54,7 +54,7 @@ public class ChatController {
         List<Role> roles = new ArrayList<>();
         roles.add(new Role(null, "ROLE_USER"));
         user = new User(id1, "Bot" + id1, roles);
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
 
         System.out.println(3);
 
@@ -78,7 +78,7 @@ public class ChatController {
             chatMessages.setChatMessageList(chatMessageList);
         }
 
-        chatMessagesRepository.save(chatMessages);
+        chatMessagesRepository.saveAndFlush(chatMessages);
         return chatMessage;
     }
 
