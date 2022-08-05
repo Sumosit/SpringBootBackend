@@ -89,14 +89,9 @@ public class ChatController {
 
     @GetMapping("/api/chat/messages/{id1}/{id2}")
     public List<ChatMessage> chatListMessages(@PathVariable Long id1, @PathVariable String id2) {
-        User user = userRepository.findUserById(id1);
-        if (user == null) {
-            List<Role> roles = new ArrayList<>();
-            roles.add(new Role(null, "ROLE_USER"));
-            user = new User(id1, "Bot", roles);
-            userRepository.save(user);
-            user.setUsername("Bot " + user.getUsername());
-            userRepository.save(user);
+//        User user = userRepository.findUserById(id1);
+        if (!userRepository.existsById(id1)) {
+            return null;
         }
 
         ChatMessages chatMessages;
