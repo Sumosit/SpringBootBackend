@@ -7,6 +7,7 @@ import com.example.pegieback.models.Role;
 import com.example.pegieback.models.User;
 import com.example.pegieback.repository.ChatMessageRepository;
 import com.example.pegieback.repository.ChatMessagesRepository;
+import com.example.pegieback.repository.RoleRepository;
 import com.example.pegieback.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -23,6 +24,8 @@ public class ChatController {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    RoleRepository roleRepository;
 
     @Autowired
     ChatMessageRepository chatMessageRepository;
@@ -41,7 +44,7 @@ public class ChatController {
         if (userRepository.findUserById(id1) == null) {
             System.out.println(11);
             List<Role> roles = new ArrayList<>();
-            roles.add(new Role(null, "ROLE_USER"));
+            roles.add(roleRepository.findRoleByName("ROLE_USER"));
             user = new User(id1, "Bot", roles);
             System.out.println(112);
             user = userRepository.save(user);
@@ -52,7 +55,7 @@ public class ChatController {
         }
         System.out.println(2);
         List<Role> roles = new ArrayList<>();
-        roles.add(new Role(null, "ROLE_USER"));
+        roles.add(roleRepository.findRoleByName("ROLE_USER"));
         user = new User(id1, "Bot" + id1, roles);
         userRepository.save(user);
 
