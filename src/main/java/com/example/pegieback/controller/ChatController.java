@@ -63,12 +63,16 @@ public class ChatController {
 
         ChatMessages chatMessages;
         if (chatMessagesRepository.findByChatName(id1 + id2) != null) {
+            System.out.println(33);
             chatMessages = chatMessagesRepository.findByChatName(id1 + id2);
         } else {
+            System.out.println(333);
             chatMessages = chatMessagesRepository.findByChatName(id2 + id1);
         }
+        System.out.println(3333);
         ChatMessage chatMessage = chatMessageRepository.save(new ChatMessage(null, user, message.getMessage(), message.getImgIds()));
 
+        System.out.println(33333);
         if (chatMessages == null) {
             System.out.println(4);
             List<ChatMessage> chatMessageList = new ArrayList<>();
