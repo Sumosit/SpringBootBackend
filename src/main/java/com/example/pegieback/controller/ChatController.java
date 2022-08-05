@@ -70,7 +70,7 @@ public class ChatController {
             chatMessages = chatMessagesRepository.findByChatName(id2 + id1);
         }
         System.out.println(user.getId());
-        System.out.println(userRepository.findUserById(user.getId()));
+        System.out.println(userRepository.findById(user.getId()));
         System.out.println(3333);
         ChatMessage chatMessage = chatMessageRepository.save(new ChatMessage(null, user, message.getMessage(), message.getImgIds()));
 
