@@ -41,7 +41,7 @@ public class ChatController {
         SendChatMessage sendChatMessage = new SendChatMessage();
 //        System.out.println(sendChatMessage.getImgIds());
         User user;
-        if (userRepository.findUserById(id1) == null) {
+        if (!userRepository.existsById(id1)) {
             System.out.println(11);
             List<Role> roles = new ArrayList<>();
             roles.add(roleRepository.findRoleByName("ROLE_USER"));
