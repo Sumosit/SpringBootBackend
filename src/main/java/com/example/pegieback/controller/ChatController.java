@@ -45,7 +45,7 @@ public class ChatController {
             System.out.println(11);
             List<Role> roles = new ArrayList<>();
             roles.add(roleRepository.findRoleByName("ROLE_USER"));
-            user = new User(id1, "Bot", roles);
+            user = new User(id1, "Bot" + id1, roles);
             System.out.println(112);
             user = userRepository.save(user);
             System.out.println(113);
@@ -53,7 +53,6 @@ public class ChatController {
             System.out.println(114);
             user = userRepository.findUserById(id1);
             System.out.println(115);
-            userRepository.save(user);
         }
         System.out.println(3);
 
