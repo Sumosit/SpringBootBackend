@@ -50,15 +50,11 @@ public class ChatController {
             user = userRepository.save(user);
             System.out.println(113);
         } else {
-            System.out.println(111);
+            System.out.println(114);
             user = userRepository.findUserById(id1);
+            System.out.println(115);
+            userRepository.save(user);
         }
-        System.out.println(2);
-        List<Role> roles = new ArrayList<>();
-        roles.add(roleRepository.findRoleByName("ROLE_USER"));
-        user = new User(id1, "Bot" + id1, roles);
-        userRepository.save(user);
-
         System.out.println(3);
 
         ChatMessages chatMessages;
@@ -70,7 +66,6 @@ public class ChatController {
             chatMessages = chatMessagesRepository.findByChatName(id2 + id1);
         }
         System.out.println(user.getId());
-        System.out.println(userRepository.findById(user.getId()));
         System.out.println(3333);
         ChatMessage chatMessage = chatMessageRepository.save(new ChatMessage(null, user, message.getMessage(), message.getImgIds()));
 
