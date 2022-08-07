@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = {"http://localhost:4200", "https://effervescent-dusk-cf7920.netlify.app/"})
 public class FileController {
     @Autowired
     private FileStorageService storageService;
