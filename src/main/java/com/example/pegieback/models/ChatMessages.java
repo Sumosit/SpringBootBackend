@@ -12,7 +12,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "chat_message", schema = "public")
+@Table(name = "chat_messages", schema = "public")
 public class ChatMessages {
 
     @Id

@@ -1,6 +1,7 @@
 package com.example.pegieback.controller;
 
 import com.example.pegieback.message.ResponseFile;
+import com.example.pegieback.message.ResponseMessage;
 import com.example.pegieback.models.FileDB;
 import com.example.pegieback.service.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,23 +18,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin("*")
 public class FileController {
     @Autowired
     private FileStorageService storageService;
 
     @PostMapping("/upload")
-    public List<String> uploadFile(@RequestPart("files") MultipartFile[] files) throws IOException {
-        List<FileDB> fileDBS = new ArrayList<>();
-        System.out.println(files);
+    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
+        System.out.println(file);
+        String message = "";
         try {
-            for (MultipartFile file : files) {
-                fileDBS.add(storageService.store(file));
-            }
-            return fileDBS.stream().map(FileDB::getId).collect(Collectors.toList());
+            storageService.store(file);
+            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {
-            System.out.println(e);
-            return null;
+            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
         }
     }
 

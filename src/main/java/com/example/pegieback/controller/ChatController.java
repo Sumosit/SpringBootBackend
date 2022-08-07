@@ -35,87 +35,39 @@ public class ChatController {
 
     @MessageMapping("/chat/{id1}/{id2}")
     @SendTo("/topic/chat/{id1}/{id2}")
-    public ChatMessage greeting(SendChatMessage message, @DestinationVariable Long id1, @DestinationVariable String id2) throws Exception {
+    public ChatMessage greeting(SendChatMessage message, @DestinationVariable String id1, @DestinationVariable String id2) throws Exception {
         Thread.sleep(1000);
-        System.out.println(1);
-        SendChatMessage sendChatMessage = new SendChatMessage();
-//        System.out.println(sendChatMessage.getImgIds());
-        User user;
-        System.out.println(id1);
-        System.out.println(userRepository.existsById(id1));
-        if (!userRepository.existsById(id1)) {
-            System.out.println(11);
+        if (!userRepository.existsById(Long.valueOf(id1))) {
             List<Role> roles = new ArrayList<>();
             roles.add(roleRepository.findRoleByName("ROLE_USER"));
-            user = new User(id1, "Bot" + id1, roles);
-            System.out.println(112);
-            user = userRepository.save(user);
-            System.out.println(113);
-        } else {
-            System.out.println(114);
-            user = userRepository.findUserById(id1);
-            System.out.println(115);
+            userRepository.save(new User(null, "bot", roles));
+            userRepository.save(new User(null, "bot", roles));
+            userRepository.save(new User(null, "bot", roles));
+            userRepository.save(new User(null, "bot", roles));
+            userRepository.save(new User(null, "bot", roles));
+            userRepository.save(new User(null, "bot", roles));
+            userRepository.save(new User(null, "bot", roles));
         }
-        System.out.println(3);
 
-        ChatMessages chatMessages;
-        if (chatMessagesRepository.findByChatName(id1 + id2) != null) {
-            System.out.println(33);
-            chatMessages = chatMessagesRepository.findByChatName(id1 + id2);
-        } else {
-            System.out.println(333);
-            chatMessages = chatMessagesRepository.findByChatName(id2 + id1);
-        }
-        System.out.println(user.getId());
-        System.out.println(3333);
+        User user = userRepository.findUserById(Long.valueOf(id1));
         ChatMessage chatMessage = chatMessageRepository.save(new ChatMessage(null, user, message.getMessage(), message.getImgIds()));
+        ChatMessages chatMessages;
+        List<ChatMessage> chatMessageList = new ArrayList<>();
 
-        System.out.println(33333);
-        if (chatMessages == null) {
-            System.out.println(4);
-            List<ChatMessage> chatMessageList = new ArrayList<>();
+        if (chatMessagesRepository.findChatMessagesByChatName(id1 + id2) == null) {
             chatMessageList.add(chatMessage);
-            chatMessages = new ChatMessages(null, id1 + id2, chatMessageList);
+            chatMessagesRepository.save(new ChatMessages(null, id1 + id2, chatMessageList));
         } else {
-            System.out.println(5);
-            List<ChatMessage> chatMessageList = chatMessages.getChatMessageList();
-            chatMessageList.add(chatMessage);
-            chatMessages.setChatMessageList(chatMessageList);
+            chatMessages = chatMessagesRepository.findChatMessagesByChatName(id1 + id2);
+            chatMessages.getChatMessageList().add(chatMessage);
+            chatMessagesRepository.save(chatMessages);
         }
-
-        chatMessagesRepository.save(chatMessages);
         return chatMessage;
     }
 
     @GetMapping("/api/chat/messages/{id1}/{id2}")
-    public List<ChatMessage> chatListMessages(@PathVariable Long id1, @PathVariable String id2) {
-//        User user = userRepository.findUserById(id1);
-        if (!userRepository.existsById(id1)) {
-            return null;
-        }
-
-        ChatMessages chatMessages;
-        if (chatMessagesRepository.findByChatName(id1 + id2) != null) {
-            chatMessages = chatMessagesRepository.findByChatName(id1 + id2);
-        } else {
-            chatMessages = chatMessagesRepository.findByChatName(id2 + id1);
-        }
-
-        if (chatMessages == null) {
-            List<ChatMessage> chatMessageList = new ArrayList<>();
-            chatMessages = new ChatMessages(null, id1 + id2, chatMessageList);
-        } else {
-            List<ChatMessage> chatMessageList = chatMessages.getChatMessageList();
-            chatMessages.setChatMessageList(chatMessageList);
-        }
-
-        chatMessagesRepository.save(chatMessages);
-        if (chatMessagesRepository.findByChatName(id1 + id2) != null) {
-            return chatMessagesRepository.findByChatName(id1 + id2).getChatMessageList();
-        } else {
-            return chatMessagesRepository.findByChatName(id2 + id1).getChatMessageList();
-        }
+    public List<ChatMessage> chatListMessages(@PathVariable String id1, @PathVariable String id2) {
+        return chatMessagesRepository.findChatMessagesByChatName(id1 + id2).getChatMessageList();
     }
-
 
 }
