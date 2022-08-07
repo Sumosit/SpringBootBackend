@@ -21,6 +21,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/gs-guide-websocket")
                 .setAllowedOrigins("http://localhost:4200")
                 .setAllowedOrigins("https://effervescent-dusk-cf7920.netlify.app/")
+                .setAllowedOrigins("*")
                 .withSockJS();
     }
 }
