@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200", "https://effervescent-dusk-cf7920.netlify.app/"})
+@CrossOrigin(origins = "*")
 public class UsersController {
 
     @Autowired
